@@ -14,10 +14,10 @@ public class TestListener implements TestWatcher {
     public void testFailed(ExtensionContext context, Throwable cause) {
         Allure.getLifecycle().addAttachment(
                 "Скрин во время падения теста", "image/png", "png",
-                ((TakesScreenshot) DriverStart._driver).getScreenshotAs(OutputType.BYTES)
+                ((TakesScreenshot) DriverStart.driver).getScreenshotAs(OutputType.BYTES)
         );
 
-        Allure.addAttachment("Логи в  результате падения теста: ", String.valueOf(DriverStart._driver.manage().logs().get(LogType.BROWSER).getAll()));
+        Allure.addAttachment("Логи в  результате падения теста: ", String.valueOf(DriverStart.driver.manage().logs().get(LogType.BROWSER).getAll()));
         WebDriverManager.chromedriver().quit();
 //        Abstract._driver.quit();
     }
@@ -26,9 +26,9 @@ public class TestListener implements TestWatcher {
     public void testSuccessful(ExtensionContext context) {
         Allure.getLifecycle().addAttachment(
                 "Скрин в результате успешного прохождения теста", "image/png", "png",
-                ((TakesScreenshot) DriverStart._driver).getScreenshotAs(OutputType.BYTES)
+                ((TakesScreenshot) DriverStart.driver).getScreenshotAs(OutputType.BYTES)
         );
-        Allure.addAttachment("Логи в результате успешного прохождения теста: ", String.valueOf(DriverStart._driver.manage().logs().get(LogType.BROWSER).getAll()));
+        Allure.addAttachment("Логи в результате успешного прохождения теста: ", String.valueOf(DriverStart.driver.manage().logs().get(LogType.BROWSER).getAll()));
         WebDriverManager.chromedriver().quit();
 //        Abstract._driver.quit();
     }

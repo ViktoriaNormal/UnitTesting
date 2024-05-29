@@ -15,20 +15,17 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElem
 
 abstract public class DriverStart  {
 
-    public static WebDriver _driver;
-    public static ChromeOptions _chromeOptions;
-    public static WebDriverWait _wait;
-    public String _urlGoogle = "https://www.google.com/";
-    public String _urlYandex = "https://www.ya.ru/";
-    public String _login = "13579";
+    public static WebDriver driver;
+    private static ChromeOptions chromeOptions;
+    private static WebDriverWait wait;
 
     public static void setUp() {
         WebDriverManager.chromedriver().setup();
-        _chromeOptions = new ChromeOptions();
-        WebDriver chromeDriver = new ChromeDriver(_chromeOptions);
-        _driver = new EventFiringDecorator(new LogDriverActions()).decorate(chromeDriver);
-        _wait = new WebDriverWait(_driver, Duration.ofSeconds(25));
-        _driver.manage().window().maximize();
+        chromeOptions = new ChromeOptions();
+        WebDriver chromeDriver = new ChromeDriver(chromeOptions);
+        driver = new EventFiringDecorator(new LogDriverActions()).decorate(chromeDriver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(25));
+        driver.manage().window().maximize();
     }
 
     @BeforeEach
@@ -37,6 +34,6 @@ abstract public class DriverStart  {
     }
 
     public void WaitElement(String path) {
-        _wait.until(visibilityOfElementLocated(By.xpath(path)));
+        wait.until(visibilityOfElementLocated(By.xpath(path)));
     }
 }
