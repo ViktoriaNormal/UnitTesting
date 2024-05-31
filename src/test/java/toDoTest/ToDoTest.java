@@ -1,4 +1,4 @@
-package toDoTests;
+package toDoTest;
 
 import PageObject.DriverStart;
 import PageObject.TestListener;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @Feature("Тесты для списка дел")
 @ExtendWith(TestListener.class)
-public class Tests extends DriverStart {
+public class ToDoTest extends DriverStart {
     //Добавить логирование шагов
 
     ToDoPage toDoPage;
@@ -93,7 +93,7 @@ public class Tests extends DriverStart {
         Assertions.assertEquals("1 of 6 remaining", countOfElements);
     }
 
-    @Step("Нажать на новый элемент списка")
+    @Step("Шаг 6. Нажать на новый элемент списка")
     public void stepCheckClickingNewItem() {
         toDoPage.checkBoxClick(5);
 

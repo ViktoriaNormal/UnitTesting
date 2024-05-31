@@ -1,4 +1,4 @@
-package toDoTests;
+package toDoTest;
 
 import PageObject.DriverStart;
 import PageObject.LogDriverActions;
@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.events.EventFiringDecorator;
-
 import java.util.List;
 
 public class ToDoPage extends DriverStart {
