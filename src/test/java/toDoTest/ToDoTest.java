@@ -1,7 +1,7 @@
 package toDoTest;
 
-import PageObject.DriverStart;
-import PageObject.TestListener;
+import generalSettings.DriverStart;
+import generalSettings.TestListener;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@Feature("Тесты для списка дел")
+@Feature("Тест списка дел")
 @ExtendWith(TestListener.class)
 public class ToDoTest extends DriverStart {
     //Добавить логирование шагов

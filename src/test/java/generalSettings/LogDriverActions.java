@@ -1,4 +1,4 @@
-package PageObject;
+package generalSettings;
 
 import io.qameta.allure.Allure;
 import org.openqa.selenium.WebDriver;
@@ -9,12 +9,11 @@ import org.slf4j.LoggerFactory;
 
 public class LogDriverActions extends DriverStart implements WebDriverListener {
 
-    private static Logger _logger = (Logger) LoggerFactory.getLogger(WebDriver.class);
+    private static final Logger logger =  LoggerFactory.getLogger(WebDriver.class);
 
     @Override
     public void beforeClick(WebElement element) {
         Allure.step("Клик на " + element.getText());
     }
 
-    // add method to sout info when we put informations into field
 }

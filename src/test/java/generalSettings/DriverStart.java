@@ -1,8 +1,7 @@
-package PageObject;
+package generalSettings;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -33,6 +32,10 @@ abstract public class DriverStart  {
     @BeforeEach
     public void initBefore() {
         setUp();
+    }
+
+    public void waitElement(WebElement element) {
+        wait.until(visibilityOf(element));
     }
 
     public void waitElements(List<WebElement> elements) {

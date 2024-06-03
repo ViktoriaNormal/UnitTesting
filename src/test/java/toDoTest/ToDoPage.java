@@ -1,7 +1,7 @@
 package toDoTest;
 
-import PageObject.DriverStart;
-import PageObject.LogDriverActions;
+import generalSettings.DriverStart;
+import generalSettings.LogDriverActions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

@@ -1,12 +1,17 @@
 package sheduleTest;
 
-import PageObject.DriverStart;
+import generalSettings.DriverStart;
+import generalSettings.TestListener;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@Feature("Тест страницы расписания Московского политеха")
+@ExtendWith(TestListener.class)
 public class ScheduleTest extends DriverStart {
 
     SchedulePage schedulePage;

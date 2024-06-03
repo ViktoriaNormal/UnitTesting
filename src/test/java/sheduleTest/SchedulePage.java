@@ -1,8 +1,7 @@
 package sheduleTest;
 
-import PageObject.DriverStart;
-import PageObject.LogDriverActions;
-import org.openqa.selenium.By;
+import generalSettings.DriverStart;
+import generalSettings.LogDriverActions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +10,7 @@ import org.openqa.selenium.support.events.EventFiringDecorator;
 
 import java.util.List;
 
-public class SchedulePage  extends DriverStart {
+public class SchedulePage extends DriverStart {
 
     public String scheduleURL = "https://mospolytech.ru/";
 
@@ -41,6 +40,8 @@ public class SchedulePage  extends DriverStart {
         PageFactory.initElements(DriverStart.driver, this);
     }
 
+
+//    добавить проверку на день недеди "воскресенье"
     public boolean checkToday() {
         for (WebElement day : daysOfWeek) {
             if(day.getAttribute("class").contains("schedule-day_today"))
