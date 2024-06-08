@@ -31,7 +31,7 @@ public class YandexTest extends DriverStart {
         inputPrice();
     }
 
-    @Step("Шаг 2. В меню “Каталог” выбрать категорию: Электроника -> Ноутбуки, планшеты и электронные книги -> Ноутбуки")
+    @Step("В меню “Каталог” выбрать категорию: Электроника -> Ноутбуки, планшеты и электронные книги -> Ноутбуки")
     public void choiceCategory() {
         waitElement(yandexPage.catalogButton);
         yandexPage.catalogButton.click();
@@ -39,17 +39,16 @@ public class YandexTest extends DriverStart {
 
         waitElement(yandexPage.electronics);
         action.moveToElement(yandexPage.electronics).perform();
-        waitElement(yandexPage.laptopsTabletsEbooks);
-        action.moveToElement(yandexPage.laptopsTabletsEbooks).perform();
+        waitElement(yandexPage.laptops);
         yandexPage.laptops.click();
     }
 
-    @Step("Шаг 3. Вывести в лог первые 5 найденных товаров (название и цену)")
+    @Step("Вывести в лог первые 5 найденных товаров (название и цену)")
     public void printProductsTitleAndPrice() {
         yandexPage.printTitleAndPrice();
     }
 
-    @Step("Шаг 4. В меню фильтров заполнить поле “Цена, ₽” следующими значениями: от 60000 до 110000.")
+    @Step("В меню фильтров заполнить поле “Цена, ₽” следующими значениями: от 60000 до 110000.")
     public void inputPrice() {
         driver.manage().deleteAllCookies();
         driver.navigate().refresh();

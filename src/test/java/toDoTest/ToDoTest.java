@@ -33,25 +33,25 @@ public class ToDoTest extends DriverStart {
         stepCheckClickingNewItem();
     }
 
-    @Step("Шаг 1. Перейти по ссылке: https://lambdatest.github.io/sample-todo-app/")
+    @Step("Перейти по ссылке: https://lambdatest.github.io/sample-todo-app/")
     public void stepCheckTitle() {
         String pageTitle = toDoPage.pageTitle.getText();
         Assertions.assertEquals("LambdaTest Sample App", pageTitle);
     }
 
-    @Step("Шаг 2. Проверить, что присутствует текст: \"5 of 5 remaining\"")
+    @Step("Проверить, что присутствует текст: \"5 of 5 remaining\"")
     public void stepCheckText() {
         String text = toDoPage.textRemaining.getText();
         Assertions.assertEquals("5 of 5 remaining", text);
     }
 
-    @Step("Шаг 3. Проверить, что первый элемент списка не зачеркнут")
+    @Step("Проверить, что первый элемент списка не зачеркнут")
     public void stepCheckFirstItem() {
         String classFirstItem = toDoPage.findItemClass(0);
         Assertions.assertEquals("done-false", classFirstItem);
     }
 
-    @Step("Шаг 4. Поставить галочку у первого элемента")
+    @Step("Поставить галочку у первого элемента")
     public void stepCheckCheckbox() {
         toDoPage.checkBoxClick(0);
 
@@ -62,7 +62,7 @@ public class ToDoTest extends DriverStart {
         Assertions.assertEquals("4 of 5 remaining", countOfElements);
     }
 
-    @Step("Шаг 5. Повторить шаги 3, 4 для остальных элементов списка")
+    @Step("Повторить шаги 3, 4 для остальных элементов списка")
     public void repeatingSteps() {
         int listSize = toDoPage.toDoList.size();
 
@@ -81,7 +81,7 @@ public class ToDoTest extends DriverStart {
         }
     }
 
-    @Step("Шаг 6. Добавить новый элемент списка")
+    @Step("Добавить новый элемент списка")
     public void stepCheckAddingNewItem() {
         toDoPage.inputField.sendKeys("Sixth team");
         toDoPage.submitButton.click();
@@ -93,7 +93,7 @@ public class ToDoTest extends DriverStart {
         Assertions.assertEquals("1 of 6 remaining", countOfElements);
     }
 
-    @Step("Шаг 7. Нажать на новый элемент списка")
+    @Step("Нажать на новый элемент списка")
     public void stepCheckClickingNewItem() {
         toDoPage.checkBoxClick(5);
 

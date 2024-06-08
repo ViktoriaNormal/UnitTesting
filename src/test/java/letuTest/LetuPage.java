@@ -40,16 +40,13 @@ public class LetuPage extends DriverStart {
     @FindBy(xpath = "//a[contains(text(), 'Уход за кожей')]")
     public WebElement category;
 
-    @FindBy(xpath = "//a[contains(text(), 'Средства для ухода за лицом')]")
-    public WebElement subcategoryFacialCare;
-
     @FindBy(xpath = "//a[contains(text(), 'Средства для умывания')]")
     public WebElement subcategoryCleanser;
 
     @FindBy(xpath = "//button[contains(@class, 'products-list-filter-select-v4__options-btn')]")
     public WebElement sortButton;
 
-    @FindBy(xpath = "//span[contains(text(), 'По возрастанию цены')]")
+    @FindBy(xpath = "//span[contains(text(), ' По возрастанию цены ')]/following-sibling::*/input")
     public WebElement sortByIncreasing;
 
     @FindBy(xpath = "//input[@placeholder='Поиск']")
@@ -119,5 +116,24 @@ public class LetuPage extends DriverStart {
                 return false;
         }
         return true;
+    }
+
+    public boolean checkSort() {
+        for(int i = 0; i < 10; i++) {
+            String curPrice = products.get(i).findElement(By.xpath(".//span[@class='product-tile-price__text product-tile-price__text--actual']")).getAttribute("innerText");
+            String nextPrice = products.get(i + 1).findElement(By.xpath(".//span[@class='product-tile-price__text product-tile-price__text--actual']")).getAttribute("innerText");
+
+            logger.info("Цена {} товара из отсортированного по возрастанию списка = {}", i + 1, curPrice);
+
+            if(priceFormat(curPrice) > priceFormat(nextPrice))
+                return false;
+        }
+
+        return true;
+    }
+
+    private int priceFormat(String price) {
+        String priceFormat = price.replaceAll("[^0-9]", "");
+        return Integer.parseInt(priceFormat);
     }
 }

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,23 +33,23 @@ public class LetuTest extends DriverStart {
         printProducts();
     }
 
-    @Step("Шаг 2. В верхнем меню нажать на кнопку \"Бренды\"")
+    @Step("В верхнем меню нажать на кнопку \"Бренды\"")
     public void clickBrands() {
         js.executeScript("arguments[0].click();", letuPage.brandsLink);
     }
 
-    @Step("Шаг 3. В фильтрах нажать на букву \"A\"")
+    @Step("В фильтрах нажать на букву \"A\"")
     public void clickA() {
         js.executeScript("arguments[0].click();", letuPage.filterBrandsA);
         Assertions.assertTrue(letuPage.checkFilterByLetter());
     }
 
-    @Step("Шаг 4. Нажать на бренд с названием \"ARESA\"")
+    @Step("Нажать на бренд с названием \"ARESA\"")
     public void clickARESA() {
         js.executeScript("arguments[0].click();", letuPage.findBrand("ARESA"));
     }
 
-    @Step("Шаг 5. В фильтрах в категории «Доступность» выбрать \"Есть в наличии\"")
+    @Step("В фильтрах в категории «Доступность» выбрать \"Есть в наличии\"")
     public void choiceAvailable() {
         js.executeScript("arguments[0].click();", letuPage.filterAvailability);
         js.executeScript("arguments[0].click();", letuPage.checkboxAvailability);
@@ -60,30 +61,47 @@ public class LetuTest extends DriverStart {
         Assertions.assertTrue(letuPage.checkAvailability());
     }
 
-    @Step("Шаг 6. . Вывести в лог первые 10 отображаемых товаров (названия и цены)")
+    @Step("Вывести в лог первые 10 отображаемых товаров (названия и цены)")
     public void printProducts() {
         letuPage.printProductsByQuantity(10);
     }
 
-//    @Owner("Почтова Виктория")
-//    @DisplayName(value="Тестирование сортировки \"По возрастанию цены\"")
-//    @Test
-//    public void sortTest() {
-//        letuPage = new LetuPage(driver);
-//        driver.get(letuPage.letuURL);
-//
-//
-//    }
-//
-//    @Step("Шаг 2. В меню \"Каталог\" выбрать категорию товаров: Уход за кожей -> Средства для ухода за лицом -> Средства для умывания")
-//    public void () {}
-//
-//    @Step("Шаг 3. Вывести в лог первые 10 отображаемых товаров (названия и цены)")
-//    public void () {}
-//
-//    @Step("Шаг 4. В сортировке выбрать \"По возрастанию цены\"")
-//    public void () {}
-//
+    @Owner("Почтова Виктория")
+    @DisplayName(value="Тестирование сортировки \"По возрастанию цены\"")
+    @Test
+    public void sortTest() {
+        letuPage = new LetuPage(driver);
+        driver.get(letuPage.letuURL);
+
+        choiceCategory();
+        printProducts();
+        choiceSortByIncreasing();
+    }
+
+    @Step("В меню \"Каталог\" выбрать категорию товаров: Уход за кожей -> Средства для ухода за лицом -> Средства для умывания")
+    public void choiceCategory() {
+        js.executeScript("arguments[0].click();", letuPage.catalogButton);
+
+        Actions action = new Actions(driver);
+        action.moveToElement(letuPage.category).perform();
+
+        js.executeScript("arguments[0].click();", letuPage.subcategoryCleanser);
+    }
+
+    @Step("В сортировке выбрать \"По возрастанию цены\"")
+    public void choiceSortByIncreasing() {
+        js.executeScript("arguments[0].click();", letuPage.sortButton);
+        js.executeScript("arguments[0].click();", letuPage.sortByIncreasing);
+
+        try {
+            TimeUnit.SECONDS.sleep(4);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        
+        Assertions.assertTrue(letuPage.checkSort());
+    }
+
 //    @Owner("Почтова Виктория")
 //    @DisplayName(value="Тестирование поисковой строки, фильтра \"Стоимость\" и добавления товара в корзину")
 //    @Test

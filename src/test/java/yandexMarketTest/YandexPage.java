@@ -22,9 +22,6 @@ public class YandexPage {
     @FindBy(xpath = "//li[@data-zone-name='category-link']/a[contains(@href, 'https://market.yandex.ru/catalog--elektronika/')]")
     public WebElement electronics;
 
-    @FindBy(xpath = "//a[contains(@href, '/catalog--noutbuki-planshety-i-elektronnye-knigi/')]")
-    public WebElement laptopsTabletsEbooks;
-
     @FindBy(xpath = "//a[contains(@href, '/catalog--noutbuki/')]")
     public WebElement laptops;
 

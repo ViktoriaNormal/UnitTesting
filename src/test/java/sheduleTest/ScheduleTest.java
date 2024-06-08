@@ -31,12 +31,12 @@ public class ScheduleTest extends DriverStart {
         clickResultGroup();
     }
 
-    @Step("Шаг 2. Нажать на кнопку Расписания")
+    @Step("Нажать на кнопку Расписания")
     public void clickSchedule() {
         schedulePage.scheduleButton.click();
     }
 
-    @Step("Шаг 3. В разделе “Расписания занятий” нажать \"Смотрите на сайте\"")
+    @Step("В разделе “Расписания занятий” нажать \"Смотрите на сайте\"")
     public void clickWatchOnSite() {
         schedulePage.buttonWatchOnSite.click();
 
@@ -53,7 +53,7 @@ public class ScheduleTest extends DriverStart {
         Assertions.assertEquals(2, windowNumber);
     }
 
-    @Step("Шаг 4. В разделе \"Расписания занятий” нажать “Смотрите на сайте\"")
+    @Step("В разделе \"Расписания занятий” нажать “Смотрите на сайте\"")
     public void inputGroup() {
         String searchGroup = "221-361";
         schedulePage.groupInputField.sendKeys(searchGroup);
@@ -66,7 +66,7 @@ public class ScheduleTest extends DriverStart {
         Assertions.assertEquals(searchGroup, resultGroup);
     }
 
-    @Step("Шаг 5. Нажать на найденную группу в результатах поиска")
+    @Step("Нажать на найденную группу в результатах поиска")
     public void clickResultGroup() {
         schedulePage.groupButton.click();
 
