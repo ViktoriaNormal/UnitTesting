@@ -10,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import java.util.List;
 
-public class ToDoPage extends DriverStart {
+public class ToDoPage {
 
     public String toDoURL = "https://lambdatest.github.io/sample-todo-app/";
 

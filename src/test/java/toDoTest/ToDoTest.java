@@ -93,7 +93,7 @@ public class ToDoTest extends DriverStart {
         Assertions.assertEquals("1 of 6 remaining", countOfElements);
     }
 
-    @Step("Шаг 6. Нажать на новый элемент списка")
+    @Step("Шаг 7. Нажать на новый элемент списка")
     public void stepCheckClickingNewItem() {
         toDoPage.checkBoxClick(5);
 

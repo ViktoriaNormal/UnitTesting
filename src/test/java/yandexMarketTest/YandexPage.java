@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.List;
 
-public class YandexPage extends DriverStart {
+public class YandexPage {
 
     public String yandexURL = "https://market.yandex.ru";
 
@@ -55,8 +55,6 @@ public class YandexPage extends DriverStart {
     }
 
     public boolean checkFilterPrice() {
-        int count = 0;
-
         for(int i = 0; i < 5; i++) {
             String price = products.get(i).findElement(By.xpath(".//span[@data-auto='snippet-price-current']/span[1]")).getText();
 
@@ -65,10 +63,10 @@ public class YandexPage extends DriverStart {
             String priceFormat = price.replaceAll("[^0-9]", "");
             int intPriceFormat = Integer.parseInt(priceFormat);
 
-            if(intPriceFormat >= 60000 && intPriceFormat <= 110000)
-                count++;
+            if(intPriceFormat < 60000 || intPriceFormat > 110000)
+                return false;
         }
 
-        return count == 5;
+        return true;
     }
 }

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.interactions.Actions;
+
 import java.util.concurrent.TimeUnit;
 
 @Feature("Тест Яндекс.Маркета")
@@ -19,7 +20,7 @@ public class YandexTest extends DriverStart {
     YandexPage yandexPage;
 
     @Owner("Почтова Виктория")
-    @DisplayName(value="Тестирование Яндекс.Маркета")
+    @DisplayName(value = "Тестирование Яндекс.Маркета")
     @Test
     public void yandexTest() {
         yandexPage = new YandexPage(driver);
@@ -30,7 +31,7 @@ public class YandexTest extends DriverStart {
         inputPrice();
     }
 
-    @Step("В меню “Каталог” выбрать категорию: Электроника -> Ноутбуки, планшеты и электронные книги -> Ноутбуки")
+    @Step("Шаг 2. В меню “Каталог” выбрать категорию: Электроника -> Ноутбуки, планшеты и электронные книги -> Ноутбуки")
     public void choiceCategory() {
         waitElement(yandexPage.catalogButton);
         yandexPage.catalogButton.click();
@@ -43,24 +44,18 @@ public class YandexTest extends DriverStart {
         yandexPage.laptops.click();
     }
 
-    @Step("Вывести в лог первые 5 найденных товаров (название и цену)")
+    @Step("Шаг 3. Вывести в лог первые 5 найденных товаров (название и цену)")
     public void printProductsTitleAndPrice() {
         yandexPage.printTitleAndPrice();
     }
 
-    @Step("В меню фильтров заполнить поле “Цена, ₽” следующими значениями: от 60000 до 110000.")
+    @Step("Шаг 4. В меню фильтров заполнить поле “Цена, ₽” следующими значениями: от 60000 до 110000.")
     public void inputPrice() {
         driver.manage().deleteAllCookies();
         driver.navigate().refresh();
 
         yandexPage.inputMinPrice.sendKeys("60000");
         yandexPage.inputMaxPrice.sendKeys("110000");
-
-        try {
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
 
         boolean inRange = yandexPage.checkFilterPrice();
         Assertions.assertTrue(inRange);

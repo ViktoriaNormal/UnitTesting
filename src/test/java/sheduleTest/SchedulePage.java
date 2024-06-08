@@ -10,7 +10,7 @@ import org.openqa.selenium.support.events.EventFiringDecorator;
 
 import java.util.List;
 
-public class SchedulePage extends DriverStart {
+public class SchedulePage {
 
     public String scheduleURL = "https://mospolytech.ru/";
 

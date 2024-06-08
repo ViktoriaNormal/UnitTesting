@@ -2,6 +2,7 @@ package generalSettings;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.BeforeEach;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,14 +20,19 @@ abstract public class DriverStart  {
     public static WebDriver driver;
     private static ChromeOptions chromeOptions;
     private static WebDriverWait wait;
+    protected static JavascriptExecutor js;
 
     public static void setUp() {
         WebDriverManager.chromedriver().setup();
         chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--user-data-dir=C:\\Users\\Виктория\\AppData\\Local\\Google\\Chrome\\User Data\\");
+        chromeOptions.addArguments("--profile-directory=Profile 1");
         WebDriver chromeDriver = new ChromeDriver(chromeOptions);
         driver = new EventFiringDecorator(new LogDriverActions()).decorate(chromeDriver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(25));
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        js = (JavascriptExecutor) driver;
     }
 
     @BeforeEach
