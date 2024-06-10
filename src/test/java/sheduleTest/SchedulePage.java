@@ -2,12 +2,16 @@ package sheduleTest;
 
 import generalSettings.DriverStart;
 import generalSettings.LogDriverActions;
+import letuTest.LetuTest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.events.EventFiringDecorator;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class SchedulePage {
@@ -35,17 +39,26 @@ public class SchedulePage {
     @FindBy(xpath="//div[@class='schedule-week']/child::*")
     public List<WebElement> daysOfWeek;
 
+    private final Logger logger = LoggerFactory.getLogger(LetuTest.class);
+
     public SchedulePage(WebDriver driver) {
         DriverStart.driver = new EventFiringDecorator(new LogDriverActions()).decorate(driver);
         PageFactory.initElements(DriverStart.driver, this);
     }
 
-
-//    добавить проверку на день недеди "воскресенье"
     public boolean checkToday() {
+        String dayOfWeek = LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE"));
+        logger.info("Текущий день недели: {}", dayOfWeek);
+
         for (WebElement day : daysOfWeek) {
-            if(day.getAttribute("class").contains("schedule-day_today"))
-                return true;
+            if(dayOfWeek.equals("воскресенье")) {
+                if(day.getAttribute("class").contains("schedule-day_today"))
+                    return false;
+            }
+            else {
+                if(day.getAttribute("class").contains("schedule-day_today"))
+                    return true;
+            }
         }
         return false;
     }
