@@ -5,7 +5,6 @@ import generalSettings.LogDriverActions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.events.EventFiringDecorator;
@@ -161,6 +160,8 @@ public class LetuPage {
     public boolean checkRequestProducts() {
         for(int i = 0; i < 10; i++) {
             String description = products.get(i).findElement(By.xpath(".//span[@data-at-product-tile-title]")).getAttribute("innerText").strip().toLowerCase();
+            logger.info("Описание {} товара по результату запроса: {}", i + 1, description);
+
             if(!description.contains("шампунь"))
                 return false;
         }
@@ -171,6 +172,7 @@ public class LetuPage {
     public boolean checkCostFilter() {
         for(int i = 0; i < 10; i++) {
             String price = products.get(i).findElement(By.xpath(".//span[@class='product-tile-price__text product-tile-price__text--actual']")).getAttribute("innerText");
+            logger.info("Цена {} товара составляет {}", i + 1, price);
 
             if(priceFormat(price) < 500 || priceFormat(price) > 1500)
                 return false;
@@ -188,25 +190,10 @@ public class LetuPage {
         return productsList;
     }
 
-    public void addToCart() {
-        for(int i = 0; i < 4; i++) {
-            WebElement cartButton = products.get(i).findElement(By.xpath(".//button[@data-at-add-to-cart-button]"));
-
-            Actions action = new Actions(DriverStart.driver);
-            action.click(cartButton).perform();
-
-            List<WebElement> modalWindow = DriverStart.driver.findElements(By.xpath("//div[contains(@class,'le-modal--is-opened')]"));
-
-            if(!modalWindow.isEmpty()) {
-                WebElement secondCartButton = DriverStart.driver.findElement(By.xpath("//button[@data-at-sku-add-to-cart]"));
-                action.click(secondCartButton).perform();
-            }
-        }
-    }
-
     public boolean checkChangeButtonText() {
         for(int i = 0; i < 4; i++) {
             String buttonName = products.get(i).findElement(By.xpath(".//button[contains(@class, 'product-tile-actions__button')]")).getAttribute("innerText");
+            logger.info("Название кнопки на карточке {} товара в результате добавления в корзину - \"{}\"", i + 1, buttonName);
 
             if(!buttonName.contains("В корзине"))
                 return false;
@@ -230,6 +217,9 @@ public class LetuPage {
                 String titleCartProduct = cartProducts.get(cartProducts.size() - i - 1).findElement(By.xpath(".//a[contains(@class, 'commerce-item-info__product-name')]")).getAttribute("innerText").strip();
                 String priceCartProduct = cartProducts.get(cartProducts.size() - i - 1).findElement(By.xpath(".//span[@class='commerce-item-price__final']")).getAttribute("innerText").strip();
 
+                logger.info("Название {} товара, запомненного ранее, - \"{}\". Название {} товара, добавленного в корзину, - \"{}\".", i + 1, titleAddedProduct, i + 1, titleCartProduct);
+                logger.info("Цена {} товара, запомненного ранее, составляет {}. Цена {} товара, добавленного в корзину, составляет {}.", i + 1, priceAddedProduct, i + 1, priceCartProduct);
+
                 if(!titleAddedProduct.equals(titleCartProduct) || priceFormat(priceAddedProduct) != priceFormat(priceCartProduct))
                     return false;
             }
@@ -241,14 +231,12 @@ public class LetuPage {
     }
 
     public void printCartProducts() {
-        logger.info("\n");
-
         for(WebElement cartProduct: cartProducts) {
             String title = cartProduct.findElement(By.xpath(".//a[contains(@class, 'commerce-item-info__product-name')]")).getAttribute("innerText").strip();
             String price = cartProduct.findElement(By.xpath(".//span[@class='commerce-item-price__final']")).getAttribute("innerText").strip();
 
             logger.info("Название товара = {}", title);
-            logger.info("Цена товара = {}\n", price);
+            logger.info("Цена товара = {}", price);
         }
     }
 }
