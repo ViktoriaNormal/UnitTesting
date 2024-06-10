@@ -1,6 +1,5 @@
 package letuTest;
 
-import com.github.dockerjava.api.command.SaveImagesCmd;
 import generalSettings.DriverStart;
 import generalSettings.LogDriverActions;
 import org.openqa.selenium.By;
@@ -12,7 +11,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -86,9 +84,6 @@ public class LetuPage {
 
     @FindBy(xpath = "//button[@class='le-button cart-commerce-items__controls-remove le-button--theme-white le-button--size-md le-button--with-label']")
     public WebElement deleteButton;
-
-    @FindBy(xpath = "//div[@class='cart-confirmation-modal']")
-    public WebElement confirmModalWindow;
 
     @FindBy(xpath = "//button[@class='le-button le-button--theme-primary le-button--size-md le-button--with-label le-button--rounded']")
     public WebElement confirmDeleteButton;
