@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.interactions.Actions;
 
-import java.util.concurrent.TimeUnit;
-
 @Feature("Тест Яндекс.Маркета")
 @ExtendWith(TestListener.class)
 public class YandexTest extends DriverStart {

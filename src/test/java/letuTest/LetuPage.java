@@ -1,18 +1,23 @@
 package letuTest;
 
+import com.github.dockerjava.api.command.SaveImagesCmd;
 import generalSettings.DriverStart;
 import generalSettings.LogDriverActions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
 
-public class LetuPage extends DriverStart {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+public class LetuPage {
 
     public String letuURL = "https://www.letu.ru/";
 
@@ -55,6 +60,9 @@ public class LetuPage extends DriverStart {
     @FindBy(xpath = "//button[@title='Поиск']")
     public WebElement searchButton;
 
+    @FindBy(xpath = "//div[@id='filter-menu-9']")
+    public WebElement costFilter;
+
     @FindBy(xpath = "//input[contains(@placeholder, 'от')]")
     public WebElement inputMinPrice;
 
@@ -66,6 +74,24 @@ public class LetuPage extends DriverStart {
 
     @FindBy(xpath = "//div[@class='common-commerce-item__product']")
     public List<WebElement> cartProducts;
+
+    @FindBy(xpath = "//div[contains(@class,'le-modal--is-opened')]")
+    public List<WebElement> cartModalWindow;
+
+    @FindBy(xpath = "//button[@data-at-sku-add-to-cart]")
+    public WebElement modalCartButton;
+
+    @FindBy(xpath = "//button[@class='le-modal__btn-close']")
+    public WebElement buttonClose;
+
+    @FindBy(xpath = "//button[@class='le-button cart-commerce-items__controls-remove le-button--theme-white le-button--size-md le-button--with-label']")
+    public WebElement deleteButton;
+
+    @FindBy(xpath = "//div[@class='cart-confirmation-modal']")
+    public WebElement confirmModalWindow;
+
+    @FindBy(xpath = "//button[@class='le-button le-button--theme-primary le-button--size-md le-button--with-label le-button--rounded']")
+    public WebElement confirmDeleteButton;
 
     private final Logger logger = LoggerFactory.getLogger(LetuTest.class);
 
@@ -135,5 +161,99 @@ public class LetuPage extends DriverStart {
     private int priceFormat(String price) {
         String priceFormat = price.replaceAll("[^0-9]", "");
         return Integer.parseInt(priceFormat);
+    }
+
+    public boolean checkRequestProducts() {
+        for(int i = 0; i < 10; i++) {
+            String description = products.get(i).findElement(By.xpath(".//span[@data-at-product-tile-title]")).getAttribute("innerText").strip().toLowerCase();
+            if(!description.contains("шампунь"))
+                return false;
+        }
+
+        return true;
+    }
+
+    public boolean checkCostFilter() {
+        for(int i = 0; i < 10; i++) {
+            String price = products.get(i).findElement(By.xpath(".//span[@class='product-tile-price__text product-tile-price__text--actual']")).getAttribute("innerText");
+
+            if(priceFormat(price) < 500 || priceFormat(price) > 1500)
+                return false;
+        }
+
+        return true;
+    }
+
+    public List<WebElement> rememberProducts() {
+        List<WebElement> productsList = new ArrayList<>();
+
+        for(int i = 0; i < 4; i++)
+           productsList.add(products.get(i));
+
+        return productsList;
+    }
+
+    public void addToCart() {
+        for(int i = 0; i < 4; i++) {
+            WebElement cartButton = products.get(i).findElement(By.xpath(".//button[@data-at-add-to-cart-button]"));
+
+            Actions action = new Actions(DriverStart.driver);
+            action.click(cartButton).perform();
+
+            List<WebElement> modalWindow = DriverStart.driver.findElements(By.xpath("//div[contains(@class,'le-modal--is-opened')]"));
+
+            if(!modalWindow.isEmpty()) {
+                WebElement secondCartButton = DriverStart.driver.findElement(By.xpath("//button[@data-at-sku-add-to-cart]"));
+                action.click(secondCartButton).perform();
+            }
+        }
+    }
+
+    public boolean checkChangeButtonText() {
+        for(int i = 0; i < 4; i++) {
+            String buttonName = products.get(i).findElement(By.xpath(".//button[contains(@class, 'product-tile-actions__button')]")).getAttribute("innerText");
+
+            if(!buttonName.contains("В корзине"))
+                return false;
+        }
+
+        return true;
+    }
+
+    public boolean compareProducts(List<WebElement> rememberProducts) {
+        if(rememberProducts.size() <= cartProducts.size()) {
+            for (int i = 0; i < rememberProducts.size(); i++) {
+                String titleAddedProduct = rememberProducts.get(i).findElement(By.xpath(".//p[@class='product-tile-name__text']//span[@data-at-product-tile-title]")).getAttribute("innerText").strip();
+                String priceAddedProduct = rememberProducts.get(i).findElement(By.xpath(".//span[@class='product-tile-price__text product-tile-price__text--actual']")).getAttribute("innerText").strip();
+
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                String titleCartProduct = cartProducts.get(cartProducts.size() - i - 1).findElement(By.xpath(".//a[contains(@class, 'commerce-item-info__product-name')]")).getAttribute("innerText").strip();
+                String priceCartProduct = cartProducts.get(cartProducts.size() - i - 1).findElement(By.xpath(".//span[@class='commerce-item-price__final']")).getAttribute("innerText").strip();
+
+                if(!titleAddedProduct.equals(titleCartProduct) || priceFormat(priceAddedProduct) != priceFormat(priceCartProduct))
+                    return false;
+            }
+        }
+        else
+            return false;
+
+        return true;
+    }
+
+    public void printCartProducts() {
+        logger.info("\n");
+
+        for(WebElement cartProduct: cartProducts) {
+            String title = cartProduct.findElement(By.xpath(".//a[contains(@class, 'commerce-item-info__product-name')]")).getAttribute("innerText").strip();
+            String price = cartProduct.findElement(By.xpath(".//span[@class='commerce-item-price__final']")).getAttribute("innerText").strip();
+
+            logger.info("Название товара = {}", title);
+            logger.info("Цена товара = {}\n", price);
+        }
     }
 }

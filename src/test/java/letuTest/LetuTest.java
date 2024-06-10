@@ -9,8 +9,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Feature("Тест интернет-магазина \"Лэтуаль\"")
@@ -18,6 +21,8 @@ import java.util.concurrent.TimeUnit;
 public class LetuTest extends DriverStart {
 
     LetuPage letuPage;
+    Actions action;
+    List<WebElement> rememberProducts;
 
     @Owner("Почтова Виктория")
     @DisplayName(value="Тестирование фильтра брендов по букве начала названия и фильтра товаров \"Доступность\"")
@@ -82,7 +87,6 @@ public class LetuTest extends DriverStart {
     public void choiceCategory() {
         js.executeScript("arguments[0].click();", letuPage.catalogButton);
 
-        Actions action = new Actions(driver);
         action.moveToElement(letuPage.category).perform();
 
         js.executeScript("arguments[0].click();", letuPage.subcategoryCleanser);
@@ -98,39 +102,99 @@ public class LetuTest extends DriverStart {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        
+
         Assertions.assertTrue(letuPage.checkSort());
     }
 
-//    @Owner("Почтова Виктория")
-//    @DisplayName(value="Тестирование поисковой строки, фильтра \"Стоимость\" и добавления товара в корзину")
-//    @Test
-//    public void searchFilterCartTest() {
-//        letuPage = new LetuPage(driver);
-//        driver.get(letuPage.letuURL);
-//
-//
-//    }
-//
-//    @Step("Шаг 2. В поисковую строку ввести запрос \"шампунь для волос\" и нажать на кнопку \"Найти\"")
-//    public void () {}
-//
-//    @Step("Шаг 3. В фильтре \"Стоимость\" установить диапазон цен товаров: от 500 до 1500")
-//    public void () {}
-//
-//    @Step("Шаг 4. Запомнить первые 4 найденных товара")
-//    public void () {}
-//
-//    @Step("Шаг 5. Вывести в лог первые 4 найденных товара (названия и цены)")
-//    public void () {}
-//
-//    @Step("Шаг 6. Добавить в корзину первые 4 найденных товара")
-//    public void () {}
-//
-//    @Step("Шаг 7. Нажать на кнопку \"Корзина\" в верхнем меню")
-//    public void () {}
-//
-//    @Step("Шаг 8. Вывести в лог добавленные в корзину товары (названия и цены)")
-//    public void () {}
+    @Owner("Почтова Виктория")
+    @DisplayName(value="Тестирование поисковой строки, фильтра \"Стоимость\" и добавления товара в корзину")
+    @Test
+    public void searchFilterCartTest() {
+        letuPage = new LetuPage(driver);
+        driver.get(letuPage.letuURL);
+        action = new Actions(driver);
 
+        inputRequest();
+        inputPrice();
+        rememberProducts();
+        printFoundProducts();
+        addToCart();
+        goToCart();
+        printCartProducts();
+        resetTest();
+    }
+
+    @Step("В поисковую строку ввести запрос \"шампунь для волос\" и нажать на кнопку \"Найти\"")
+    public void inputRequest() {
+        try {
+            TimeUnit.SECONDS.sleep(4);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        action.sendKeys(letuPage.searchInput, "шампунь для волос").perform();
+
+        js.executeScript("arguments[0].click();", letuPage.searchButton);
+
+        Assertions.assertTrue(letuPage.checkRequestProducts());
+    }
+
+    @Step("В фильтре \"Стоимость\" установить диапазон цен товаров: от 500 до 1500")
+    public void inputPrice() {
+        action.click(letuPage.costFilter).perform();
+        action.sendKeys(letuPage.inputMinPrice, "500").perform();
+        action.sendKeys(letuPage.inputMaxPrice, "1500").perform();
+        action.sendKeys(Keys.ENTER).perform();
+
+        try {
+            TimeUnit.SECONDS.sleep(4);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        Assertions.assertTrue(letuPage.checkCostFilter());
+    }
+
+    @Step("Запомнить первые 4 найденных товара")
+    public void rememberProducts() {
+        rememberProducts = letuPage.rememberProducts();
+    }
+
+    @Step("Вывести в лог первые 4 найденных товара (названия и цены)")
+    public void printFoundProducts() {
+        letuPage.printProductsByQuantity(4);
+    }
+
+    @Step("Добавить в корзину первые 4 найденных товара")
+    public void addToCart() {
+        for(int i = 0; i < 4; i++) {
+            WebElement firstCartButton = letuPage.products.get(i).findElement(By.xpath(".//button[@data-at-add-to-cart-button]"));
+
+            js.executeScript("arguments[0].click()", firstCartButton);
+
+            if(!letuPage.cartModalWindow.isEmpty()) {
+                js.executeScript("arguments[0].click()", letuPage.modalCartButton);
+                js.executeScript("arguments[0].click()", letuPage.buttonClose);
+            }
+        }
+
+        Assertions.assertTrue(letuPage.checkChangeButtonText());
+    }
+
+    @Step("Нажать на кнопку \"Корзина\" в верхнем меню")
+    public void goToCart() {
+        js.executeScript("arguments[0].click();", letuPage.cartButton);
+
+        Assertions.assertTrue(letuPage.compareProducts(rememberProducts));
+    }
+
+    @Step("Вывести в лог добавленные в корзину товары (названия и цены)")
+    public void printCartProducts() {
+        letuPage.printCartProducts();
+    }
+
+    public void resetTest() {
+        js.executeScript("arguments[0].click()", letuPage.deleteButton);
+        js.executeScript("arguments[0].click()", letuPage.confirmDeleteButton);
+    }
 }
