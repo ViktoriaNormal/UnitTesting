@@ -21,12 +21,12 @@ import java.util.concurrent.TimeUnit;
 
 @Feature("Тест интернет-магазина \"Лэтуаль\"")
 @ExtendWith(TestListener.class)
-public class LetuTest extends DriverStart {
+public class LetuTests extends DriverStart {
 
     LetuPage letuPage;
     Actions action;
     List<WebElement> rememberProducts;
-    Logger logger = LoggerFactory.getLogger(LetuTest.class);
+    Logger logger = LoggerFactory.getLogger(LetuTests.class);
 
     @Owner("Почтова Виктория")
     @DisplayName(value = "Тестирование фильтра брендов по букве начала названия и фильтра товаров \"Доступность\"")

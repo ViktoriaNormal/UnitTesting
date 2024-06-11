@@ -2,7 +2,7 @@ package sheduleTest;
 
 import generalSettings.DriverStart;
 import generalSettings.LogDriverActions;
-import letuTest.LetuTest;
+import letuTest.LetuTests;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -39,7 +39,7 @@ public class SchedulePage {
     @FindBy(xpath="//div[@class='schedule-week']/child::*")
     public List<WebElement> daysOfWeek;
 
-    private final Logger logger = LoggerFactory.getLogger(LetuTest.class);
+    private final Logger logger = LoggerFactory.getLogger(LetuTests.class);
 
     public SchedulePage(WebDriver driver) {
         DriverStart.driver = new EventFiringDecorator(new LogDriverActions()).decorate(driver);

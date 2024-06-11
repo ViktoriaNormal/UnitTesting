@@ -87,7 +87,7 @@ public class LetuPage {
     @FindBy(xpath = "//button[@class='le-button le-button--theme-primary le-button--size-md le-button--with-label le-button--rounded']")
     public WebElement confirmDeleteButton;
 
-    private final Logger logger = LoggerFactory.getLogger(LetuTest.class);
+    private final Logger logger = LoggerFactory.getLogger(LetuTests.class);
 
     public LetuPage(WebDriver driver) {
         DriverStart.driver = new EventFiringDecorator(new LogDriverActions()).decorate(driver);

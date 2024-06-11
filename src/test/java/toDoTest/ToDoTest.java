@@ -5,7 +5,7 @@ import generalSettings.TestListener;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
-import letuTest.LetuTest;
+import letuTest.LetuTests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class ToDoTest extends DriverStart {
 
     ToDoPage toDoPage;
-    Logger logger = LoggerFactory.getLogger(LetuTest.class);
+    Logger logger = LoggerFactory.getLogger(LetuTests.class);
 
     @Owner("Почтова Виктория")
     @DisplayName(value="Тестирование списка дел \"LambdaTest Sample App\"")
