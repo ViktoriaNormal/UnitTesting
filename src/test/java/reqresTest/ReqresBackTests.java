@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.*;
 
-@Feature("Тестирование Reqres")
+@Feature("Тестирование API Reqres")
 public class ReqresBackTests extends BaseTest {
 
     Logger logger = LoggerFactory.getLogger(ReqresBackTests.class);
@@ -69,7 +69,7 @@ public class ReqresBackTests extends BaseTest {
     @DisplayName(value="Тестирование запроса SINGLE USER NOT FOUND")
     @Test
     public void getSingleUserNotFound() {
-        testObjectNotFound("users/22");
+        testObjectNotFound("users/23");
     }
 
     @Owner("Почтова Виктория")
@@ -298,10 +298,10 @@ public class ReqresBackTests extends BaseTest {
         logger.info("Запрос успешно выполнен.");
     }
 
-    private void testObjectNotFound(String url) {
+    public void testObjectNotFound(String request) {
         String body = given(requestSpecification)
                 .when()
-                .get(url)
+                .get(request)
                 .then()
                 .statusCode(404)
                 .extract().response().asString();
@@ -311,7 +311,7 @@ public class ReqresBackTests extends BaseTest {
         Assertions.assertThat(body).contains("{}");
     }
 
-    private void authenticateObjectUnsuccessful(String email, String url) {
+    public void authenticateObjectUnsuccessful(String email, String request) {
         Authentication authentication = Authentication.builder()
                 .email(email)
                 .build();
@@ -319,7 +319,7 @@ public class ReqresBackTests extends BaseTest {
         String error = given(requestSpecification)
                 .body(authentication)
                 .when()
-                .post(url)
+                .post(request)
                 .then()
                 .statusCode(400)
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("jsonSchemas\\ErrorSchema.json"))
