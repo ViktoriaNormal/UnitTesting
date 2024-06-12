@@ -19,9 +19,6 @@ public class YandexPage {
     @FindBy(xpath = "//div[@data-zone-name='catalog']/button")
     public WebElement catalogButton;
 
-//    @FindBy(xpath = "//li[@data-zone-name='category-link']/a[contains(@href, 'https://market.yandex.ru/catalog--elektronika/')]")
-//    public WebElement electronics;
-
     @FindBy(xpath = "//li/a/span[contains(text(), 'Электроника')]")
     public WebElement electronics;
 
