@@ -27,7 +27,7 @@ public class LetuPage {
     @FindBy(xpath = "//div[@class='brand-item__link']/a")
     public List<WebElement> filterBrandsList;
 
-    @FindBy(xpath = "//div[@id='filter-menu-6']/child::*/child::*")
+    @FindBy(xpath = "//div[@data-at-filter-dimension='sku.stockAvailability']/child::div[1]")
     public WebElement filterAvailability;
 
     @FindBy(xpath = "//p[contains(text(), 'Есть в наличии')]/parent::*/preceding-sibling::*")

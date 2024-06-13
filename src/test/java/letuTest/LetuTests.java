@@ -29,7 +29,7 @@ public class LetuTests extends DriverStart {
     Logger logger = LoggerFactory.getLogger(LetuTests.class);
 
     @Owner("Почтова Виктория")
-    @DisplayName(value = "Тестирование фильтра брендов по букве начала названия и фильтра товаров \"Доступность\"")
+    @DisplayName(value = "Тестирование фильтра брендов по букве начала названия и фильтра товаров Доступность")
     @Test
     public void brandTest() {
         letuPage = new LetuPage(driver);
@@ -87,7 +87,7 @@ public class LetuTests extends DriverStart {
     }
 
     @Owner("Почтова Виктория")
-    @DisplayName(value = "Тестирование сортировки \"По возрастанию цены\"")
+    @DisplayName(value = "Тестирование сортировки По возрастанию цены")
     @Test
     public void sortTest() {
         letuPage = new LetuPage(driver);
@@ -130,7 +130,7 @@ public class LetuTests extends DriverStart {
     }
 
     @Owner("Почтова Виктория")
-    @DisplayName(value = "Тестирование поисковой строки, фильтра \"Стоимость\" и добавления товара в корзину")
+    @DisplayName(value = "Тестирование поисковой строки, фильтра Стоимость и добавления товара в корзину")
     @Test
     public void searchFilterCartTest() {
         letuPage = new LetuPage(driver);
