@@ -206,7 +206,7 @@ public class LetuPage {
         if(rememberProducts.size() <= cartProducts.size()) {
             for (int i = 0; i < rememberProducts.size(); i++) {
                 String titleAddedProduct = rememberProducts.get(i).findElement(By.xpath(".//p[@class='product-tile-name__text']//span[@data-at-product-tile-title]")).getAttribute("innerText").strip();
-                String priceAddedProduct = rememberProducts.get(i).findElement(By.xpath(".//span[@class='product-tile-price__text product-tile-price__text--actual']")).getAttribute("innerText").strip();
+                String priceAddedProduct = rememberProducts.get(i).findElement(By.xpath(".//span[contains(@class, 'product-tile-price__text product-tile-price__text--actual')]")).getAttribute("innerText").strip();
 
                 try {
                     TimeUnit.SECONDS.sleep(2);
